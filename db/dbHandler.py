@@ -11,13 +11,13 @@ class DbHandler:
         return getattr(DbHandler, '__instance')
 
     def __init__(self):
-        self.redis = Redis(db=10)
+        self.redis = Redis()
 
     def inc_process_duration(self, pname: str, interval: float) -> None:
         self.redis.hincrbyfloat('today_proc', pname, interval)
 
-    def inc_web_duration(self, dns_name: str, interval: float) -> None:
-        self.redis.hincrbyfloat('today_web', dns_name, interval)
+    def inc_web_duration(self, dns_name: str, n_requests: int) -> None:
+        self.redis.hincrbyfloat('today_web', dns_name, n_requests)
 
     def _update(self) -> None:
         procs: dict = self.redis.hgetall('today_proc')

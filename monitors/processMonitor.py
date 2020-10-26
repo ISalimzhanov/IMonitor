@@ -28,8 +28,9 @@ class ProcessMonitor:
             db_handler.inc_process_duration(pname, interval)
 
     def monitor(self):
+        cur = time.time()
         while True:
-            start_t = time.time()
             procs = self._get_processes()
-            end_t = time.time()
-            ProcessMonitor._update_durations(procs, end_t - start_t)
+            ProcessMonitor._update_durations(procs, cur - time.time())
+            cur = time.time()
+            time.sleep(2)
