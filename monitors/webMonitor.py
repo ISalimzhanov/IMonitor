@@ -1,5 +1,5 @@
 from scapy.all import *
-from scapy.layers.http import HTTPRequest, HTTPResponse
+from scapy.layers.http import HTTPRequest
 
 from db.dbHandler import DbHandler
 
@@ -19,6 +19,7 @@ class WebMonitor:
         db_handler = DbHandler()
         if pck.haslayer(HTTPRequest):
             dns_name = pck[HTTPRequest].Host.decode()  # DNS host's name
+            print(dns_name)
             db_handler.inc_web_duration(dns_name, 1)
 
     def monitor(self):
